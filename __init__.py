@@ -193,37 +193,37 @@ else:
     
     # Now includes the filepath
     def _createZODBClone(self):
-    """Create a ZODB (editable) equivalent of this object."""
-    obj = PythonScript(self.getId(), expandpath(self._filepath))
-    obj.write(self.read())
-    return obj
+        """Create a ZODB (editable) equivalent of this object."""
+        obj = PythonScript(self.getId(), expandpath(self._filepath))
+        obj.write(self.read())
+        return obj
 
     FSPythonScript._createZODBClone = _createZODBClone
 
     # Now includes the file path
     def _write(self, text, compile):
-    '''
-    Parses the source, storing the body, params, title, bindings,
-    and source in self.  If compile is set, compiles the
-    function.
-    '''
-    ps = PythonScript(self.id, expandpath(self._filepath))
-    ps.write(text)
-    if compile:
-        ps._makeFunction(1)
-        self._v_f = f = ps._v_f
-        if f is not None:
-            self.func_code = f.func_code
-            self.func_defaults = f.func_defaults
-        else:
-            # There were errors in the compile.
-            # No signature.
-            self.func_code = bad_func_code()
-            self.func_defaults = None
-    self._body = ps._body
-    self._params = ps._params
-    self.title = ps.title
-    self._setupBindings(ps.getBindingAssignments().getAssignedNames())
-    self._source = ps.read()  # Find out what the script sees.
+        '''
+        Parses the source, storing the body, params, title, bindings,
+        and source in self.  If compile is set, compiles the
+        function.
+        '''
+        ps = PythonScript(self.id, expandpath(self._filepath))
+        ps.write(text)
+        if compile:
+            ps._makeFunction(1)
+            self._v_f = f = ps._v_f
+            if f is not None:
+                self.func_code = f.func_code
+                self.func_defaults = f.func_defaults
+            else:
+                # There were errors in the compile.
+                # No signature.
+                self.func_code = bad_func_code()
+                self.func_defaults = None
+        self._body = ps._body
+        self._params = ps._params
+        self.title = ps.title
+        self._setupBindings(ps.getBindingAssignments().getAssignedNames())
+        self._source = ps.read()  # Find out what the script sees.
 
     FSPythonScript._write =_write
