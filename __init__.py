@@ -19,10 +19,8 @@ from zLOG import LOG, ERROR
 
 from Shared.DC.Scripts.Script import defaultBindings
 
-from Products.CMFCore.FSPythonScript import FSPythonScript, bad_func_code
 from Products.PythonScripts.PythonScript import PythonScript, Python_magic, \
-    Script_magic, _nonempty_line, _first_indent
-from Products.CMFCore.DirectoryView import expandpath
+    Script_magic, _nonempty_line, _first_indent, _nice_bind_names
 
 from AccessControl import ModuleSecurityInfo
 ModuleSecurityInfo('pdb').declarePublic('set_trace')
@@ -186,17 +184,24 @@ def read(self):
 
 PythonScript.read = read
 
-# Now includes the filepath
-def _createZODBClone(self):
+try:
+    from Products.CMFCore.FSPythonScript import FSPythonScript
+    from Products.CMFCore.DirectoryView import expandpath
+except ImportError:
+    pass
+else:
+    
+    # Now includes the filepath
+    def _createZODBClone(self):
     """Create a ZODB (editable) equivalent of this object."""
     obj = PythonScript(self.getId(), expandpath(self._filepath))
     obj.write(self.read())
     return obj
 
-FSPythonScript._createZODBClone = _createZODBClone
+    FSPythonScript._createZODBClone = _createZODBClone
 
-# Now includes the file path
-def _write(self, text, compile):
+    # Now includes the file path
+    def _write(self, text, compile):
     '''
     Parses the source, storing the body, params, title, bindings,
     and source in self.  If compile is set, compiles the
@@ -221,4 +226,4 @@ def _write(self, text, compile):
     self._setupBindings(ps.getBindingAssignments().getAssignedNames())
     self._source = ps.read()  # Find out what the script sees.
 
-FSPythonScript._write =_write
+    FSPythonScript._write =_write
