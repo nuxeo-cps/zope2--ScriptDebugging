@@ -19,7 +19,7 @@ from zLOG import LOG, ERROR
 
 from Shared.DC.Scripts.Script import defaultBindings
 
-from Products.CMFCore.FSPythonScript import FSPythonScript
+from Products.CMFCore.FSPythonScript import FSPythonScript, bad_func_code
 from Products.PythonScripts.PythonScript import PythonScript, Python_magic, \
     Script_magic, _nonempty_line, _first_indent
 from Products.CMFCore.DirectoryView import expandpath
