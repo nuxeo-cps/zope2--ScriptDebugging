@@ -6,7 +6,7 @@ New features:
 -
 Bug fixes:
 ~~~~~~~~~~
--
+- Programatically created PythonScripts would fail to run.
 New internal features:
 ~~~~~~~~~~~~~~~~~~~~~~
 -
