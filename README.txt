@@ -1,7 +1,7 @@
 FSPythonScript Support for pdb
 ------------------------------
 
-This Product monkey patches Zope and to allow pdb and other pdb based 
+This Product monkey patches Zope to allow pdb and other pdb based 
 debuggers (such as Wing IDE) to stop on breakpoints placed in script 
 files stored on disk and to step into and through script file code.
 
