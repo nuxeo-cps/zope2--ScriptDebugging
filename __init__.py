@@ -30,7 +30,8 @@ ModuleSecurityInfo('pdb').declarePublic('set_trace')
 # Add support for storing a path to the file.
 def __init__(self, id, filepath=None):
     self.id = id
-    self._filepath = filepath
+    if filepath:
+        self._filepath = filepath
     self.ZBindings_edit(defaultBindings)
     self._makeFunction()
 
@@ -39,6 +40,7 @@ PythonScript.__init__ = __init__
 # If filepath exists, it is used instead of the meta_type.
 # If not, the meta type is used as before.
 def _compile(self):
+    
     fp = getattr(self, '_filepath', self.meta_type)
     bind_names = self.getBindingAssignments().getAssignedNamesInOrder()
     r = self._compiler(self._params, self._body or 'pass',
